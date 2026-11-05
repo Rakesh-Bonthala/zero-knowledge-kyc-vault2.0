@@ -18,7 +18,7 @@
       <div class="logo-icon">ZK</div>
       <div class="logo-text">
         <h1>Zero-Knowledge KYC Vault</h1>
-        <span>Cryptographically Isolated Storage</span>
+        <span>Your Documents. Your Keys. Your Privacy.</span>
       </div>
     </div>
   </header>
@@ -67,6 +67,166 @@
       </div>
     </div>
   </div>
+
+  <!-- Application Architecture & Guarantees Showcase -->
+  <section class="app-overview-section" aria-label="Cryptographic Guarantees and Architecture">
+    <div class="overview-heading-group">
+      <h3>Under The Hood: Cryptographic Guarantees</h3>
+      <p>Zero-knowledge means the server never holds the keys or the unencrypted data.</p>
+    </div>
+
+    <!-- 4 Cryptographic Guarantee Cards -->
+    <div class="guarantees-grid">
+      <!-- Card 1 -->
+      <article class="guarantee-card">
+        <div class="guarantee-header">
+          <div class="guarantee-icon icon-blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h4 class="guarantee-title">Industry-Standard Encryption</h4>
+        </div>
+        <p class="guarantee-body">
+          Authenticated symmetric encryption protects your KYC documents against unauthorized viewing (confidentiality), while a 128-bit authentication tag mathematically guarantees the document cannot be tampered with or modified (integrity).
+        </p>
+        <span class="guarantee-pill">256-bit Key &bull; Additional Security Verification</span>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="guarantee-card">
+        <div class="guarantee-header">
+          <div class="guarantee-icon icon-amber">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 2l-2 2m-1.5 1.5L16 7l-3 3 1.5 1.5L16 10l2-2 3-3-2-2z"/>
+              <circle cx="7.5" cy="16.5" r="5.5"/>
+              <path d="M11.5 12.5l5 5"/>
+            </svg>
+          </div>
+          <h4 class="guarantee-title">Secure Key Generation</h4>
+        </div>
+        <p class="guarantee-body">
+          Derives a non-extractable 256-bit encryption key from your passphrase using a fresh cryptographic 16-byte random salt and 600,000 iterations to protect against automated brute-force attacks.
+        </p>
+        <span class="guarantee-pill">600,000 Iterations &bull; In-Memory Only</span>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="guarantee-card">
+        <div class="guarantee-header">
+          <div class="guarantee-icon icon-emerald">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+              <rect x="10" y="13" width="6" height="4" rx="1"/>
+            </svg>
+          </div>
+          <h4 class="guarantee-title">Private Cloud Vault</h4>
+        </div>
+        <p class="guarantee-body">
+          Your private cloud vault stores only the encrypted document (.zkkyc) and required parameters (salt, IV). The server never receives your plaintext KYC document, your passphrase, your encryption key, or your original filename.
+        </p>
+        <span class="guarantee-pill">Client-Side Only &bull; Isolated Cloud Path</span>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="guarantee-card">
+        <div class="guarantee-header">
+          <div class="guarantee-icon icon-cyan">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              <path d="M11 8v6M8 11h6"/>
+            </svg>
+          </div>
+          <h4 class="guarantee-title">Password Breach Check</h4>
+        </div>
+        <p class="guarantee-body">
+          Checks whether your passphrase appears in known breach databases using a privacy-preserving model. Only a partial hash prefix is transmitted; note that passing this check does not guarantee a passphrase is strong or cannot be guessed.
+        </p>
+        <span class="guarantee-pill">Privacy Model &bull; Never Sends Passphrase</span>
+      </article>
+    </div>
+
+    <!-- Zero-Knowledge Processing Flow Box -->
+    <div class="flow-card">
+      <h4 class="flow-title">Zero-Knowledge Processing Flow</h4>
+      <div class="flow-steps">
+        <!-- Step 1 -->
+        <div class="flow-step-box">
+          <span class="flow-step-num">1</span>
+          <div class="flow-step-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div class="flow-step-title">Select Document</div>
+          <div class="flow-step-desc">Local PDF, JPG, PNG</div>
+        </div>
+
+        <div class="flow-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flow-step-box">
+          <span class="flow-step-num">2</span>
+          <div class="flow-step-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </div>
+          <div class="flow-step-title">Generate Key</div>
+          <div class="flow-step-desc">Secure Key Generation</div>
+        </div>
+
+        <div class="flow-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flow-step-box">
+          <span class="flow-step-num">3</span>
+          <div class="flow-step-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div class="flow-step-title">Encrypt File</div>
+          <div class="flow-step-desc">Industry-Standard Encryption</div>
+        </div>
+
+        <div class="flow-arrow" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="flow-step-box">
+          <span class="flow-step-num">4</span>
+          <div class="flow-step-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+            </svg>
+          </div>
+          <div class="flow-step-title">Secure Cloud Storage</div>
+          <div class="flow-step-desc">Encrypted Document Only</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer class="app-footer">
     Zero-Knowledge KYC Vault &bull; Client-Side Web Crypto AES-256-GCM Architecture &bull; No key escrow.
