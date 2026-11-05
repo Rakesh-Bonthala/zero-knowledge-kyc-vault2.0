@@ -4,4 +4,4 @@ node_modules/
 *.log
 .mock_storage/
 dist/
-coverage/
+coverage/ 

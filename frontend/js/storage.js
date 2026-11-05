@@ -4,7 +4,10 @@
  * CRITICAL ZERO-KNOWLEDGE COMPLIANCE:
  * - NO passphrase persistence (forbidden in localStorage/sessionStorage/cookies/IndexedDB).
  * - NO derived encryption key persistence.
- * - Only user preferences (UI theme, iterations config, breach check toggle) are stored.
+ * - Only user preferences (iterations config, breach check toggle) are stored.
+ *
+ * Auth Change: getUserId/setUserId removed — user identity is now managed
+ * by server-side sessions (HttpOnly cookie). No user ID in localStorage.
  */
 
 const PREF_PREFIX = 'zk_vault_pref_';
@@ -43,20 +46,6 @@ export class ClientSessionState {
     } catch (e) {}
   }
 
-  static getUserId() {
-    try {
-      return localStorage.getItem(`${PREF_PREFIX}user_id`) || 'demo_fintech_user_01';
-    } catch (e) {
-      return 'demo_fintech_user_01';
-    }
-  }
-
-  static setUserId(userId) {
-    try {
-      localStorage.setItem(`${PREF_PREFIX}user_id`, userId);
-    } catch (e) {}
-  }
-
   /**
    * Securely zeroes out a typed array buffer to prevent sensitive residuals.
    */
@@ -69,4 +58,3 @@ export class ClientSessionState {
     }
   }
 }
-

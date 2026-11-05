@@ -3,9 +3,13 @@ import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import { config } from './config/config.js';
 import vaultRoutes from './routes/vault.routes.js';
+import authRoutes from './routes/auth.routes.js';
 import { errorMiddleware } from './middleware/error.middleware.js';
+import { cookieParserMiddleware } from './middleware/csrf.middleware.js';
 import { StorageFactory } from './services/storage/storage.factory.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,6 +17,7 @@ const __dirname = path.dirname(__filename);
 const frontendPath = path.resolve(__dirname, '../frontend');
 
 const app = express();
+app.set('trust proxy', 1);
 
 // Security Headers
 app.use(
@@ -33,12 +38,13 @@ app.use(
   })
 );
 
-// CORS configuration
+// CORS configuration with credentials support
 app.use(
   cors({
     origin: config.corsOrigin === '*' ? true : config.corsOrigin,
+    credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-User-Id'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-User-Id', 'X-CSRF-Token', 'X-XSRF-Token'],
     exposedHeaders: [
       'X-Doc-Id',
       'X-Original-Filename',
@@ -56,18 +62,61 @@ app.use(
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParserMiddleware);
+
+// Session Store configuration
+let sessionStore;
+if (process.env.STORAGE_PROVIDER !== 'mock' && config.mongodb.uri && process.env.NODE_ENV !== 'test') {
+  try {
+    sessionStore = MongoStore.create({
+      mongoUrl: config.mongodb.uri,
+      collectionName: 'sessions',
+      ttl: config.auth.sessionMaxAgeMs / 1000,
+      autoRemove: 'native'
+    });
+  } catch (e) {
+    sessionStore = new session.MemoryStore();
+  }
+} else {
+  sessionStore = new session.MemoryStore();
+}
+
+app.use(
+  session({
+    name: config.auth.sessionName,
+    secret: config.auth.sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    store: sessionStore,
+    cookie: {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: config.nodeEnv === 'production',
+      maxAge: config.auth.sessionMaxAgeMs
+    }
+  })
+);
 
 // Serve frontend static assets
 app.use(express.static(frontendPath));
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/vault', vaultRoutes);
 
-// Single-page fallback for frontend
+// Frontend page routing
+// Auth pages are served as separate HTML files; the dashboard is index.html
+const AUTH_PAGES = ['/login.html', '/register.html', '/otp.html', '/forgot-password.html', '/reset-password.html'];
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api/')) {
     return next();
   }
+  // Serve auth pages directly if they exist
+  if (AUTH_PAGES.includes(req.path)) {
+    return res.sendFile(path.join(frontendPath, req.path));
+  }
+  // Everything else goes to the dashboard (which checks session client-side)
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 

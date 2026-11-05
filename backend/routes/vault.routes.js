@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { VaultController } from '../controllers/vault.controller.js';
-import { authMiddleware } from '../middleware/auth.middleware.js';
+import { requireSessionAuth } from '../middleware/sessionAuth.middleware.js';
 import { config } from '../config/config.js';
 
 const router = express.Router();
@@ -16,10 +16,10 @@ const upload = multer({
 
 // Vault Routes with authentication & ownership isolation
 router.get('/status', VaultController.status);
-router.post('/upload', authMiddleware, upload.single('encryptedFile'), VaultController.upload);
-router.get('/documents', authMiddleware, VaultController.list);
-router.get('/download/:id', authMiddleware, VaultController.download);
-router.delete('/documents/:id', authMiddleware, VaultController.delete);
+router.post('/upload', requireSessionAuth, upload.single('encryptedFile'), VaultController.upload);
+router.get('/documents', requireSessionAuth, VaultController.list);
+router.get('/download/:id', requireSessionAuth, VaultController.download);
+router.delete('/documents/:id', requireSessionAuth, VaultController.delete);
 
 export default router;
 

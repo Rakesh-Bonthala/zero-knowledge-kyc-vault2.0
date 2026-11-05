@@ -8,13 +8,92 @@ let selectedFile = null;
 let currentDocuments = [];
 let pendingDecryptDocId = null;
 
+// ─── Session Check & Auth Guard ─────────────────────────────────
+async function checkSession() {
+  try {
+    const res = await fetch('/api/auth/me', { credentials: 'include' });
+    const data = await res.json();
+    if (!data.authenticated) {
+      window.location.href = '/login.html';
+      return null;
+    }
+    return data.user;
+  } catch {
+    window.location.href = '/login.html';
+    return null;
+  }
+}
+
+function handleSessionExpired() {
+  UIManager.showToast('Session expired. Redirecting to sign in...', 'warning');
+  setTimeout(() => { window.location.href = '/login.html'; }, 1500);
+}
+
 // Initialize Application
 document.addEventListener('DOMContentLoaded', async () => {
+  const user = await checkSession();
+  if (!user) return; // Redirect already triggered
+
+  // Inject user info and logout button into header
+  renderUserHeader(user);
+
+  // Fetch CSRF token for vault mutations
+  await VaultAPI.refreshCsrfToken();
+
   setupEventListeners();
   loadSettings();
   await refreshStorageStatus();
   await refreshDocuments();
 });
+
+function renderUserHeader(user) {
+  const headerStatus = document.querySelector('.header-status');
+  if (!headerStatus) return;
+
+  // Insert user info before existing children
+  const userGroup = document.createElement('div');
+  userGroup.className = 'user-info-group';
+  userGroup.innerHTML = `
+    <div class="user-display">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <strong>${UIManager.escapeHTML(user.fullName || user.username)}</strong>
+    </div>
+    <button id="logout-btn" class="btn-logout" title="Sign out and clear session">Logout</button>
+  `;
+  headerStatus.insertBefore(userGroup, headerStatus.firstChild);
+
+  // Logout handler
+  document.getElementById('logout-btn')?.addEventListener('click', handleLogout);
+}
+
+async function handleLogout() {
+  try {
+    const csrfToken = await VaultAPI.refreshCsrfToken();
+    const res = await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken || ''
+      }
+    });
+
+    // Clear any in-memory passphrase references (zero-knowledge cleanup)
+    selectedFile = null;
+    currentDocuments = [];
+    pendingDecryptDocId = null;
+
+    // Clear passphrase input values
+    const passInput = document.getElementById('upload-passphrase');
+    if (passInput) passInput.value = '';
+    const decryptPass = document.getElementById('decrypt-passphrase');
+    if (decryptPass) decryptPass.value = '';
+
+    window.location.href = '/login.html';
+  } catch {
+    window.location.href = '/login.html';
+  }
+}
 
 function setupEventListeners() {
   // File Dropzone
@@ -219,11 +298,10 @@ async function handleEncryptAndUpload(e) {
 
     UIManager.updateProgress(80, 20, 'Transmitting ciphertext to zero-knowledge vault...');
 
-    const userId = ClientSessionState.getUserId();
     const result = await VaultAPI.uploadEncrypted(
       ciphertextBuffer,
       metadata,
-      userId,
+      null, // userId no longer needed — session handles identity
       (uploadPercent) => {
         UIManager.updateProgress(80, uploadPercent, `Uploading ciphertext (${uploadPercent}%)...`);
       }
@@ -248,6 +326,7 @@ async function handleEncryptAndUpload(e) {
 
     await refreshDocuments();
   } catch (err) {
+    if (err.message === 'SESSION_EXPIRED') return handleSessionExpired();
     console.error('[Upload Error]', err);
     UIManager.showToast(err.message || 'Failed to encrypt or upload document.', 'error');
     UIManager.resetProgress();
@@ -297,9 +376,8 @@ async function handleExecuteDecrypt(e) {
   }
 
   try {
-    const userId = ClientSessionState.getUserId();
-    // Download raw ciphertext and headers
-    const { ciphertextBuffer, metadata } = await VaultAPI.downloadEncrypted(pendingDecryptDocId, userId);
+    // Download raw ciphertext and headers (no userId needed)
+    const { ciphertextBuffer, metadata } = await VaultAPI.downloadEncrypted(pendingDecryptDocId);
 
     // Decrypt locally using Web Crypto API
     const decrypted = await decryptDocument(ciphertextBuffer, passphrase, metadata);
@@ -323,6 +401,7 @@ async function handleExecuteDecrypt(e) {
     if (passInput) passInput.value = '';
     pendingDecryptDocId = null;
   } catch (err) {
+    if (err.message === 'SESSION_EXPIRED') return handleSessionExpired();
     console.error('[Decryption Failed]', err);
     if (errorAlert) {
       errorAlert.textContent = err.message || 'Decryption failed: Incorrect passphrase or tampered ciphertext.';
@@ -346,25 +425,25 @@ async function handleDeleteClick(docId) {
   if (!confirmed) return;
 
   try {
-    const userId = ClientSessionState.getUserId();
-    await VaultAPI.deleteDocument(docId, userId);
+    await VaultAPI.deleteDocument(docId);
     UIManager.showToast(`Document "${name}" deleted.`, 'info');
     await refreshDocuments();
   } catch (err) {
+    if (err.message === 'SESSION_EXPIRED') return handleSessionExpired();
     UIManager.showToast(err.message || 'Failed to delete document.', 'error');
   }
 }
 
 async function refreshDocuments() {
   try {
-    const userId = ClientSessionState.getUserId();
-    const res = await VaultAPI.listDocuments(userId);
+    const res = await VaultAPI.listDocuments();
     currentDocuments = res.documents || [];
     UIManager.renderDocumentsList(currentDocuments, handleDecryptClick, handleDeleteClick);
 
     const countEl = document.getElementById('vault-doc-count');
     if (countEl) countEl.textContent = `${currentDocuments.length} Document${currentDocuments.length === 1 ? '' : 's'}`;
   } catch (err) {
+    if (err.message === 'SESSION_EXPIRED') return handleSessionExpired();
     console.error('[Fetch Documents Error]', err);
     UIManager.showToast('Unable to load documents from vault.', 'error');
   }
@@ -384,27 +463,20 @@ async function refreshStorageStatus() {
 function loadSettings() {
   const iterSelect = document.getElementById('setting-iterations');
   const breachToggle = document.getElementById('setting-breach-check');
-  const userSelect = document.getElementById('setting-user-id');
 
   if (iterSelect) iterSelect.value = ClientSessionState.getIterations();
   if (breachToggle) breachToggle.checked = ClientSessionState.isBreachCheckEnabled();
-  if (userSelect) userSelect.value = ClientSessionState.getUserId();
 }
 
 function handleSaveSettings() {
   const iterSelect = document.getElementById('setting-iterations');
   const breachToggle = document.getElementById('setting-breach-check');
-  const userSelect = document.getElementById('setting-user-id');
   const modal = document.getElementById('settings-modal');
 
   if (iterSelect) ClientSessionState.setIterations(parseInt(iterSelect.value, 10));
   if (breachToggle) ClientSessionState.setBreachCheckEnabled(breachToggle.checked);
-  if (userSelect && userSelect.value.trim()) {
-    ClientSessionState.setUserId(userSelect.value.trim());
-  }
 
   if (modal) modal.style.display = 'none';
   UIManager.showToast('Vault settings saved.', 'success');
   refreshDocuments();
 }
-

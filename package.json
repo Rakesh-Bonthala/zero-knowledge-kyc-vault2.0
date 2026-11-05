@@ -9,7 +9,8 @@
     "dev": "node --watch backend/server.js",
     "test": "node --test tests/*.test.js",
     "test:crypto": "node --test tests/crypto.test.js",
-    "test:vault": "node --test tests/vault.test.js"
+    "test:vault": "node --test tests/vault.test.js",
+    "test:auth": "node --test tests/auth.test.js"
   },
   "keywords": [
     "zero-knowledge",
@@ -24,16 +25,22 @@
   "author": "Google Antigravity Engineering",
   "license": "MIT",
   "dependencies": {
+    "argon2": "^0.45.2",
+    "connect-mongo": "^6.0.0",
     "cors": "^2.8.5",
+    "csrf-csrf": "^4.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-rate-limit": "^8.7.3",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
     "helmet": "^8.0.0",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^10.3.1"
   },
   "devDependencies": {
     "supertest": "^7.0.0"
   }
 }
-

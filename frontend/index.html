@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zero-Knowledge KYC Vault | Client-Side Cryptographic Storage</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 </head>
+
 <body>
 
   <!-- Top Navigation Header -->
@@ -25,7 +29,11 @@
         <span class="status-name">Probing Storage...</span>
       </div>
       <button id="open-settings-btn" class="btn btn-secondary btn-sm" title="Configure Vault Settings">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
         Settings
       </button>
     </div>
@@ -33,8 +41,11 @@
 
   <!-- Visible Security Trust Banner -->
   <aside class="security-banner">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    <span><strong>Zero-Knowledge Architecture:</strong> Your documents are encrypted on your device. Your passphrase and encryption key never leave your browser. Our server stores encrypted documents only.</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+    <span><strong>Zero-Knowledge Architecture:</strong> Your documents are encrypted on your device. Your passphrase and
+      encryption key never leave your browser. Our server stores encrypted documents only.</span>
   </aside>
 
   <!-- Main Grid Layout -->
@@ -45,7 +56,10 @@
       <div class="card-header">
         <div>
           <h2 id="upload-heading" class="card-title">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
             Encrypt & Upload KYC
           </h2>
           <p class="card-subtitle">Encrypted in browser memory before network transmission</p>
@@ -54,10 +68,15 @@
 
       <form id="vault-upload-form">
         <!-- Dropzone Area -->
-        <div id="file-dropzone" class="dropzone" role="button" tabindex="0" aria-label="Drop file here or click to select">
+        <div id="file-dropzone" class="dropzone" role="button" tabindex="0"
+          aria-label="Drop file here or click to select">
           <input type="file" id="file-input" style="display: none;" accept="image/*,.pdf,.doc,.docx,.txt">
           <div class="dropzone-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
           </div>
           <div class="dropzone-text">Choose file or drag & drop</div>
           <div class="dropzone-hint">Passports, IDs, Bank Statements, Proof of Address (Max 50MB)</div>
@@ -79,7 +98,8 @@
             <span style="font-size: 0.725rem; color: var(--accent-cyan);">Zero Server Knowledge</span>
           </label>
           <div class="input-wrapper">
-            <input type="password" id="upload-passphrase" class="form-input" placeholder="Enter high-entropy passphrase" required autocomplete="new-password">
+            <input type="password" id="upload-passphrase" class="form-input" placeholder="Enter high-entropy passphrase"
+              required autocomplete="new-password">
             <button type="button" id="toggle-passphrase-btn" class="btn-toggle-vis">Show</button>
           </div>
 
@@ -117,7 +137,9 @@
 
         <!-- Submit Button -->
         <button type="submit" id="encrypt-upload-btn" class="btn btn-success">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
           Encrypt & Upload to Vault
         </button>
       </form>
@@ -128,7 +150,13 @@
       <div class="card-header">
         <div>
           <h2 id="vault-heading" class="card-title">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
             Encrypted Document Vault
           </h2>
           <p class="card-subtitle" id="storage-status-detail">Loading storage provider information...</p>
@@ -136,7 +164,11 @@
         <div style="display: flex; gap: 0.5rem; align-items: center;">
           <span id="vault-doc-count" class="crypto-chip">0 Documents</span>
           <button id="refresh-vault-btn" class="btn btn-secondary btn-sm" title="Sync Vault">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10" />
+              <polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
           </button>
         </div>
       </div>
@@ -145,7 +177,8 @@
       <div id="vault-empty-state" class="empty-state">
         <div class="empty-state-icon">🔐</div>
         <div class="empty-state-text">Your encrypted vault is empty.</div>
-        <div class="card-subtitle" style="margin-top: 0.5rem;">Select and encrypt a sensitive KYC document to begin.</div>
+        <div class="card-subtitle" style="margin-top: 0.5rem;">Select and encrypt a sensitive KYC document to begin.
+        </div>
       </div>
 
       <!-- Documents Table -->
@@ -175,11 +208,15 @@
     <div class="modal-card">
       <div class="modal-header">
         <h3 class="card-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+          </svg>
           Decrypt KYC Document
         </h3>
       </div>
-      <p id="modal-doc-info" class="card-subtitle" style="margin-bottom: 1rem; color: var(--accent-cyan);">File: document.pdf</p>
+      <p id="modal-doc-info" class="card-subtitle" style="margin-bottom: 1rem; color: var(--accent-cyan);">File:
+        document.pdf</p>
 
       <div id="modal-decrypt-error" class="modal-error" style="display: none;"></div>
 
@@ -190,13 +227,15 @@
             <span style="font-size: 0.725rem; color: var(--text-dark);">Client-Side Only</span>
           </label>
           <div class="input-wrapper">
-            <input type="password" id="decrypt-passphrase" class="form-input" placeholder="Passphrase used during encryption" required autocomplete="current-password">
+            <input type="password" id="decrypt-passphrase" class="form-input"
+              placeholder="Passphrase used during encryption" required autocomplete="current-password">
             <button type="button" id="toggle-decrypt-pass-btn" class="btn-toggle-vis">Show</button>
           </div>
         </div>
 
         <p class="dropzone-hint" style="margin-top: 0.75rem;">
-          The AES-256 key will be derived in your browser to verify the AES-GCM authentication tag. If the passphrase is correct and ciphertext untampered, the file will download directly.
+          The AES-256 key will be derived in your browser to verify the AES-GCM authentication tag. If the passphrase is
+          correct and ciphertext untampered, the file will download directly.
         </p>
 
         <div class="modal-footer">
@@ -212,7 +251,8 @@
     <div class="modal-card">
       <div class="modal-header">
         <h3 class="card-title">Vault Cryptographic Settings</h3>
-        <button id="close-settings-btn" class="btn-toggle-vis" style="position: static; font-size: 1.25rem;">&times;</button>
+        <button id="close-settings-btn" class="btn-toggle-vis"
+          style="position: static; font-size: 1.25rem;">&times;</button>
       </div>
 
       <div class="form-group">
@@ -233,12 +273,6 @@
         <p class="dropzone-hint">Queries only the first 5 characters of SHA-1 hash to verify passphrase safety.</p>
       </div>
 
-      <div class="form-group" style="margin-top: 1rem;">
-        <label for="setting-user-id" class="form-label">Simulated Account / User ID</label>
-        <input type="text" id="setting-user-id" class="form-input" value="demo_fintech_user_01">
-        <p class="dropzone-hint">Simulates isolated ownership for multitenant zero-knowledge document separation.</p>
-      </div>
-
       <div class="modal-footer">
         <button type="button" id="save-settings-btn" class="btn btn-primary">Save Settings</button>
       </div>
@@ -250,11 +284,12 @@
 
   <!-- App Footer -->
   <footer class="app-footer">
-    Zero-Knowledge KYC Vault &bull; Prototype demonstrating client-side Web Crypto AES-256-GCM architecture &bull; No key escrow, no server-side plaintext.
+    Zero-Knowledge KYC Vault &bull; Prototype demonstrating client-side Web Crypto AES-256-GCM architecture &bull; No
+    key escrow, no server-side plaintext.
   </footer>
 
   <!-- Application Script Module -->
   <script type="module" src="js/app.js"></script>
 </body>
-</html>
 
+</html>

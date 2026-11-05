@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Code | Zero-Knowledge KYC Vault</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+</head>
+<body class="auth-page">
+
+  <header class="app-header">
+    <div class="logo-group">
+      <div class="logo-icon">ZK</div>
+      <div class="logo-text">
+        <h1>Zero-Knowledge KYC Vault</h1>
+        <span>Cryptographically Isolated Storage</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h2>Verify Your Identity</h2>
+        <p id="otp-subtitle">Enter the 6-digit code sent to your email</p>
+      </div>
+
+      <div id="otp-error" class="auth-alert auth-alert-error"></div>
+      <div id="otp-success" class="auth-alert auth-alert-success"></div>
+
+      <div id="otp-email-info" class="otp-info">
+        Code sent to <strong id="otp-email-masked">your email</strong>
+      </div>
+
+      <form id="otp-form" class="auth-form" novalidate>
+        <div class="otp-box-container" id="otp-boxes">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code" aria-label="Digit 1" data-index="0">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 2" data-index="1">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 3" data-index="2">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 4" data-index="3">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 5" data-index="4">
+          <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 6" data-index="5">
+        </div>
+
+        <button type="submit" id="otp-submit-btn" class="btn-auth-submit btn-success-auth">
+          Verify Code
+        </button>
+      </form>
+
+      <div class="resend-container">
+        <button type="button" id="resend-otp-btn" class="resend-link" disabled>
+          Resend code in <span id="resend-countdown">60</span>s
+        </button>
+      </div>
+
+      <div id="dev-preview-container" class="dev-preview" style="display:none;">
+        📧 Dev Mail Preview: <a id="dev-preview-link" href="#" target="_blank" rel="noopener noreferrer">Open in Ethereal</a>
+      </div>
+
+      <div class="auth-links" style="margin-top: 1.25rem;">
+        <a href="login.html">← Back to Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    Zero-Knowledge KYC Vault &bull; Client-Side Web Crypto AES-256-GCM Architecture &bull; No key escrow.
+  </footer>
+
+  <div id="toast-container" aria-live="polite"></div>
+
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>
+
